@@ -1,0 +1,58 @@
+{
+  "subscriptions": [
+    {
+      "email": "demo@spatos.com",
+      "createdAt": "2026-04-28T20:34:53.173Z"
+    }
+  ],
+  "bookings": [
+    {
+      "fullName": "Demo Guest",
+      "email": "guest@spatos.com",
+      "checkIn": "2026-05-10",
+      "checkOut": "2026-05-12",
+      "requests": "Late check-in",
+      "createdAt": "2026-04-28T20:35:04.492Z"
+    },
+    {
+      "fullName": "Phase Two Test",
+      "email": "phase2@spatos.com",
+      "checkIn": "2026-06-10",
+      "checkOut": "2026-06-12",
+      "requests": "Test booking",
+      "createdAt": "2026-04-29T13:53:48.394Z"
+    },
+    {
+      "fullName": "Low Deposit",
+      "email": "low@spatos.com",
+      "checkIn": "2026-06-15",
+      "checkOut": "2026-06-16",
+      "requests": "Low deposit test",
+      "createdAt": "2026-04-29T13:53:48.896Z"
+    },
+    {
+      "fullName": "Conflict Two",
+      "email": "two@spatos.com",
+      "resourceCode": "deluxe-room",
+      "resourceName": "Deluxe Room",
+      "totalAmount": 15000,
+      "depositAmount": 6000,
+      "checkIn": "2026-07-11",
+      "checkOut": "2026-07-13",
+      "requests": "overlap",
+      "createdAt": "2026-04-29T13:54:46.948Z"
+    },
+    {
+      "fullName": "Sequential One",
+      "email": "seq1@spatos.com",
+      "resourceCode": "family-suite",
+      "resourceName": "Family Suite",
+      "totalAmount": 28000,
+      "depositAmount": 11200,
+      "checkIn": "2026-08-01",
+      "checkOut": "2026-08-03",
+      "requests": "first sequential",
+      "createdAt": "2026-04-29T13:54:59.944Z"
+    }
+  ]
+}
