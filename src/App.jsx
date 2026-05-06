@@ -10,7 +10,6 @@ import {
   GalleryPage,
   HomePage,
   PrivacyPage,
-  RoomsPage,
   TermsPage,
 } from './routes/pages'
 
@@ -21,7 +20,6 @@ function App() {
         <Routes>
           <Route element={<SiteLayout />}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/rooms" element={<RoomsPage />} />
             <Route path="/dining" element={<DiningPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/gallery" element={<GalleryPage />} />

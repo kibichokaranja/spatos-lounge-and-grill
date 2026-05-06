@@ -5,7 +5,6 @@ import { fetchBookingOptions, submitBooking } from '../services/formsApi'
 
 const heroImages = {
   home: '/assets/images/home-hero.jpg',
-  rooms: '/assets/images/rooms-hero.jpg',
   dining: '/assets/images/dining-hero.jpg',
   events: '/assets/images/events-hero.jpg',
   gallery: '/assets/images/gallery-hero.jpg',
@@ -23,6 +22,21 @@ const testimonials = [
     quote: 'From bar services to indoor games, Spatos is now our weekend go-to spot.',
     author: 'Brian K., Kiambu',
   },
+]
+
+const realPhotoSlides = [
+  '/assets/images/real/slide-1.png',
+  '/assets/images/real/slide-2.png',
+  '/assets/images/real/slide-3.png',
+  '/assets/images/real/slide-4.png',
+  '/assets/images/real/slide-5.png',
+  '/assets/images/real/slide-6.png',
+  '/assets/images/real/slide-7.png',
+  '/assets/images/real/slide-8.png',
+  '/assets/images/real/slide-9.png',
+  '/assets/images/real/slide-10.png',
+  '/assets/images/real/slide-11.png',
+  '/assets/images/real/slide-12.png',
 ]
 
 function RevealSection({ children, className = '' }) {
@@ -97,7 +111,7 @@ function PageTemplate({ title, subtitle, image, cards, cta, galleryImages, heroS
             <div className="hero-dots" role="tablist" aria-label="Homepage slides">
               {heroSlides.map((slide, index) => (
                 <button
-                  key={slide.title}
+                  key={slide.image}
                   type="button"
                   className={index === activeSlide ? 'is-active' : ''}
                   aria-label={`Show slide ${index + 1}`}
@@ -152,6 +166,12 @@ function PageTemplate({ title, subtitle, image, cards, cta, galleryImages, heroS
 }
 
 export function HomePage() {
+  const homeHeroSlides = realPhotoSlides.map((image) => ({
+    title: 'Activities At Spatos Lounge & Grill',
+    subtitle: 'Restaurant, bar, carwash, barbershop & spa, and indoor games in one destination.',
+    image,
+  }))
+
   return (
     <>
       <PageTemplate
@@ -159,33 +179,7 @@ export function HomePage() {
         subtitle="Enjoy restaurant, bar, carwash, barbershop & spa, and indoor games in one premium destination."
         image={heroImages.home}
         cta={<ActionButton to="/contact">Plan Your Visit</ActionButton>}
-        heroSlides={[
-          {
-            title: 'Restaurant Services',
-            subtitle: 'Fresh meals and signature grill options served all day in a relaxed setting.',
-            image: '/assets/images/hero-restaurant.svg',
-          },
-          {
-            title: 'Bar Services',
-            subtitle: 'Premium drinks, cocktails, and lounge ambience for evening relaxation.',
-            image: '/assets/images/hero-bar.svg',
-          },
-          {
-            title: 'Carwash Services',
-            subtitle: 'Fast and careful carwash while you enjoy food, drinks, or indoor activities.',
-            image: '/assets/images/hero-carwash.svg',
-          },
-          {
-            title: 'Barbershop & Spa',
-            subtitle: 'Professional grooming and wellness care tailored to your schedule.',
-            image: '/assets/images/hero-spa.svg',
-          },
-          {
-            title: 'Indoor Games',
-            subtitle: 'Pool table, drinking ludo, chess mat, jenga classic, lyrical correct, and do or drink.',
-            image: '/assets/images/hero-games.svg',
-          },
-        ]}
+        heroSlides={homeHeroSlides}
         cards={[
           {
             title: 'Restaurant Services',
@@ -209,11 +203,11 @@ export function HomePage() {
           },
         ]}
         galleryImages={[
-          '/assets/images/service-restaurant.svg',
-          '/assets/images/service-bar.svg',
-          '/assets/images/service-carwash.svg',
-          '/assets/images/service-spa.svg',
-          '/assets/images/service-games.svg',
+          '/assets/images/real/slide-1.png',
+          '/assets/images/real/slide-2.png',
+          '/assets/images/real/slide-3.png',
+          '/assets/images/real/slide-4.png',
+          '/assets/images/real/slide-5.png',
         ]}
       />
       <RevealSection className="content-section container home-extra">
@@ -244,27 +238,6 @@ export function HomePage() {
         </div>
       </RevealSection>
     </>
-  )
-}
-
-export function RoomsPage() {
-  return (
-    <PageTemplate
-      title="Rooms & Suites"
-      subtitle="Spacious accommodation designed for business leaders, couples, and family travelers."
-      image={heroImages.rooms}
-      cta={<ActionButton to="/book">Check Availability</ActionButton>}
-      cards={[
-        { title: 'Deluxe Room', description: 'King bed, smart TV, fast Wi-Fi, and ensuite rain shower.' },
-        { title: 'Executive Suite', description: 'Private lounge area, city views, and premium in-room dining.' },
-        { title: 'Family Suite', description: 'Expanded layout and connecting options for family comfort.' },
-      ]}
-      galleryImages={[
-        '/assets/images/strip-1.jpg',
-        '/assets/images/strip-2.jpg',
-        '/assets/images/strip-3.jpg',
-      ]}
-    />
   )
 }
 
@@ -311,21 +284,30 @@ export function EventsPage() {
 }
 
 export function GalleryPage() {
+  const galleryHeroSlides = realPhotoSlides.map((image) => ({
+    title: 'Gallery',
+    subtitle: 'Real moments from Spatos services and spaces.',
+    image,
+  }))
+
   return (
     <PageTemplate
       title="Gallery"
       subtitle="A visual tour of our hotel, dining, and guest experiences across Spatos spaces."
       image={heroImages.gallery}
-      cta={<ActionButton to="/book">Start Your Experience</ActionButton>}
+      cta={<ActionButton to="/contact">Plan Your Visit</ActionButton>}
+      heroSlides={galleryHeroSlides}
       cards={[
         { title: 'Interiors', description: 'Contemporary decor blending African warmth with premium comfort.' },
         { title: 'Guest Moments', description: 'Memorable dining and leisure moments with local hospitality.' },
         { title: 'Event Highlights', description: 'Celebrations and conferences delivered with precision and style.' },
       ]}
       galleryImages={[
-        '/assets/images/strip-1.jpg',
-        '/assets/images/strip-2.jpg',
-        '/assets/images/strip-3.jpg',
+        '/assets/images/real/slide-1.png',
+        '/assets/images/real/slide-2.png',
+        '/assets/images/real/slide-3.png',
+        '/assets/images/real/slide-4.png',
+        '/assets/images/real/slide-5.png',
       ]}
     />
   )
@@ -403,7 +385,7 @@ export function ContactPage() {
 export function BookPage() {
   usePageMeta(
     'Spatos Lounge&Grill | Book Now',
-    'Reserve your room, dining table, or event package at Spatos Lounge&Grill in Nairobi.',
+    'Reserve dining, bar, carwash, barbershop & spa, or indoor games services at Spatos Lounge&Grill in Nairobi.',
   )
 
   const [form, setForm] = useState({
@@ -473,7 +455,7 @@ export function BookPage() {
       <p className="eyebrow">Book Now</p>
       <h2>Reserve your Spatos experience</h2>
       <p>
-        Tell us your dates and preferences. Our team will respond promptly with room options and curated
+        Tell us your dates and preferences. Our team will respond promptly with available services and curated
         packages.
       </p>
       <form className="booking-form" onSubmit={handleSubmit}>
@@ -494,7 +476,7 @@ export function BookPage() {
           required
         />
         <select name="resourceCode" value={form.resourceCode} onChange={handleChange} required>
-          <option value="">Select room or service</option>
+          <option value="">Select service</option>
           {bookingOptions.map((option) => (
             <option key={option.code} value={option.code} disabled={option.availability === 'booked'}>
               {option.name} - KES {option.price.toLocaleString()} ({option.availability})

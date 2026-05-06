@@ -9,7 +9,6 @@ import { FaFacebookF, FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6'
 
 const navItems = [
   ['/', 'Home'],
-  ['/rooms', 'Rooms'],
   ['/dining', 'Dining'],
   ['/events', 'Events'],
   ['/gallery', 'Gallery'],
