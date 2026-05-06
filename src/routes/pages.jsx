@@ -334,7 +334,7 @@ export function DiningPage() {
       galleryImages={[
         realPhotoSlides[0],
         realPhotoSlides[8],
-        realPhotoSlides[11],
+        realPhotoSlides[9],
       ]}
     />
   )
@@ -506,26 +506,20 @@ export function BookPage() {
     phone: '',
     email: '',
     resourceCode: '',
-    checkIn: '',
-    checkOut: '',
+    bookingDate: '',
+    bookingTime: '',
     requests: '',
   })
   const [bookingOptions, setBookingOptions] = useState([])
-  const [depositRate, setDepositRate] = useState(0.4)
   const [feedback, setFeedback] = useState('')
 
   useEffect(() => {
     const loadOptions = async () => {
       const result = await fetchBookingOptions()
       setBookingOptions(result.options)
-      setDepositRate(result.depositRate || 0.4)
     }
     loadOptions()
   }, [])
-
-  const selectedOption = bookingOptions.find((option) => option.code === form.resourceCode)
-  const totalAmount = selectedOption?.price || 0
-  const depositAmount = Math.ceil(totalAmount * depositRate)
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -534,18 +528,12 @@ export function BookPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    if (!form.fullName.trim() || !form.phone.trim() || !form.email.trim() || !form.resourceCode || !form.checkIn || !form.checkOut) {
+    if (!form.fullName.trim() || !form.phone.trim() || !form.email.trim() || !form.resourceCode || !form.bookingDate || !form.bookingTime) {
       setFeedback('Please complete all required booking fields.')
-      return
-    }
-    if (new Date(form.checkOut) <= new Date(form.checkIn)) {
-      setFeedback('Service end date must be after service start date.')
       return
     }
     const result = await submitBooking({
       ...form,
-      totalAmount,
-      depositAmount,
     })
     if (!result.ok) {
       setFeedback(result.error || 'Booking could not be completed. Please try different dates.')
@@ -559,8 +547,8 @@ export function BookPage() {
       phone: '',
       email: '',
       resourceCode: '',
-      checkIn: '',
-      checkOut: '',
+      bookingDate: '',
+      bookingTime: '',
       requests: '',
     })
   }
@@ -570,7 +558,7 @@ export function BookPage() {
       <p className="eyebrow">Book Now</p>
       <h2>Reserve your Spatos experience</h2>
       <p>
-        Choose your preferred service dates below. Our team will confirm availability for the selected lounge
+        Choose your preferred service day and time below. Our team will confirm availability for the selected lounge
         service and respond promptly.
       </p>
       <form className="booking-form" onSubmit={handleSubmit}>
@@ -602,17 +590,17 @@ export function BookPage() {
           <option value="">Select service</option>
           {bookingOptions.map((option) => (
             <option key={option.code} value={option.code} disabled={option.availability === 'booked'}>
-              {option.name} - KES {option.price.toLocaleString()} ({option.availability})
+              {option.name} ({option.availability})
             </option>
           ))}
         </select>
         <label>
-          Service Start Date
-          <input type="date" name="checkIn" value={form.checkIn} onChange={handleChange} required />
+          Service Day
+          <input type="date" name="bookingDate" value={form.bookingDate} onChange={handleChange} required />
         </label>
         <label>
-          Service End Date
-          <input type="date" name="checkOut" value={form.checkOut} onChange={handleChange} required />
+          Service Time
+          <input type="time" name="bookingTime" value={form.bookingTime} onChange={handleChange} required />
         </label>
         <textarea
           name="requests"
@@ -624,14 +612,6 @@ export function BookPage() {
           Submit Booking Request
         </button>
       </form>
-      <div className="deposit-panel">
-        <p>
-          Total Amount: <strong>KES {totalAmount.toLocaleString()}</strong>
-        </p>
-        <p>
-          Required 40% Deposit: <strong>KES {depositAmount.toLocaleString()}</strong>
-        </p>
-      </div>
       {feedback ? <p className="subscribe-message">{feedback}</p> : null}
       <div className="booking-links">
         <ActionButton to="/contact" className="btn">

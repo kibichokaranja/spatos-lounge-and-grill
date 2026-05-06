@@ -30,11 +30,11 @@ export async function fetchBookingOptions() {
     return {
       ok: false,
       options: [
-        { code: 'restaurant-services', name: 'Restaurant Services', type: 'service', price: 2000, availability: 'available' },
-        { code: 'bar-services', name: 'Bar Services', type: 'service', price: 1800, availability: 'available' },
-        { code: 'carwash-services', name: 'Carwash Services', type: 'service', price: 1200, availability: 'available' },
-        { code: 'barbershop-spa', name: 'Barbershop & Spa', type: 'service', price: 2500, availability: 'available' },
-        { code: 'indoor-games', name: 'Indoor Games', type: 'service', price: 1000, availability: 'available' },
+        { code: 'restaurant-services', name: 'Restaurant Services', type: 'service', availability: 'available' },
+        { code: 'bar-services', name: 'Bar Services', type: 'service', availability: 'available' },
+        { code: 'carwash-services', name: 'Carwash Services', type: 'service', availability: 'available' },
+        { code: 'barbershop-spa', name: 'Barbershop & Spa', type: 'service', availability: 'available' },
+        { code: 'indoor-games', name: 'Indoor Games', type: 'service', availability: 'available' },
       ],
       depositRate: 0.4,
     }

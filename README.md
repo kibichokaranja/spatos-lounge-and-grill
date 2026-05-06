@@ -23,9 +23,9 @@ Frontend runs on `http://localhost:5173` and backend API runs on `http://localho
 ## API endpoints
 
 - `GET /health` - API health check
-- `GET /booking-options` - fetch lounge services + availability + deposit rate
+- `GET /booking-options` - fetch lounge services + day/time availability
 - `POST /subscriptions` - save newsletter subscription
-- `POST /bookings` - save booking request
+- `POST /bookings` - save day/time service booking request
 - `GET /whatsapp/webhook` - verification endpoint for WhatsApp webhook providers
 - `POST /whatsapp/webhook` - WhatsApp auto-reply handler (Twilio-ready)
 
@@ -51,3 +51,6 @@ Frontend runs on `http://localhost:5173` and backend API runs on `http://localho
    - `GET /whatsapp/webhook` for verification
    - `POST /whatsapp/webhook` for incoming message events
 6. Without Twilio credentials, endpoint still returns a `previewReply` for testing logic.
+7. Booking emails:
+   - customer receives a warm confirmation email
+   - lounge receives booking details via email

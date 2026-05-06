@@ -6,14 +6,13 @@ import { ensureStore, readStore, writeStore } from './storage.js'
 
 const app = express()
 const port = globalThis.process?.env?.PORT || 4000
-const DEPOSIT_RATE = 0.4
 const env = globalThis.process?.env || {}
 const serviceOptions = [
-  { code: 'restaurant-services', name: 'Restaurant Services', type: 'service', price: 2000 },
-  { code: 'bar-services', name: 'Bar Services', type: 'service', price: 1800 },
-  { code: 'carwash-services', name: 'Carwash Services', type: 'service', price: 1200 },
-  { code: 'barbershop-spa', name: 'Barbershop & Spa', type: 'service', price: 2500 },
-  { code: 'indoor-games', name: 'Indoor Games', type: 'service', price: 1000 },
+  { code: 'restaurant-services', name: 'Restaurant Services', type: 'service' },
+  { code: 'bar-services', name: 'Bar Services', type: 'service' },
+  { code: 'carwash-services', name: 'Carwash Services', type: 'service' },
+  { code: 'barbershop-spa', name: 'Barbershop & Spa', type: 'service' },
+  { code: 'indoor-games', name: 'Indoor Games', type: 'service' },
 ]
 
 app.use(cors())
@@ -23,10 +22,6 @@ app.use(express.urlencoded({ extended: false }))
 app.get('/health', (_req, res) => {
   res.json({ ok: true, service: 'spatos-forms-api' })
 })
-
-function hasDateOverlap(startA, endA, startB, endB) {
-  return new Date(startA) < new Date(endB) && new Date(endA) > new Date(startB)
-}
 
 function getWhatsAppReply(message) {
   const text = String(message || '').toLowerCase()
@@ -74,7 +69,7 @@ app.get('/booking-options', async (_req, res) => {
       availability: hasFutureBooking ? 'booked' : 'available',
     }
   })
-  res.json({ ok: true, options, depositRate: DEPOSIT_RATE })
+  res.json({ ok: true, options, depositRate: 0 })
 })
 
 app.get('/whatsapp/webhook', (req, res) => {
@@ -144,34 +139,27 @@ app.post('/bookings', async (req, res) => {
   const phone = String(payload.phone || '').trim()
   const email = String(payload.email || '').trim().toLowerCase()
   const resourceCode = String(payload.resourceCode || '').trim()
-  const checkIn = String(payload.checkIn || '')
-  const checkOut = String(payload.checkOut || '')
+  const bookingDate = String(payload.bookingDate || '')
+  const bookingTime = String(payload.bookingTime || '')
   const requests = String(payload.requests || '')
-  const totalAmount = Number(payload.totalAmount || 0)
-  const depositAmount = Number(payload.depositAmount || 0)
 
-  if (!fullName || !phone || !email || !resourceCode || !checkIn || !checkOut || !totalAmount) {
+  if (!fullName || !phone || !email || !resourceCode || !bookingDate || !bookingTime) {
     return res.status(400).json({ ok: false, error: 'Missing required fields' })
-  }
-  if (new Date(checkOut) <= new Date(checkIn)) {
-    return res.status(400).json({ ok: false, error: 'Check-out must be after check-in' })
   }
 
   const selectedResource = serviceOptions.find((item) => item.code === resourceCode)
   if (!selectedResource) {
     return res.status(400).json({ ok: false, error: 'Invalid service selection' })
   }
-  if (depositAmount < totalAmount * DEPOSIT_RATE) {
-    return res.status(400).json({ ok: false, error: 'Minimum 40% deposit is required' })
-  }
-
   const data = await readStore()
   const hasConflict = data.bookings.some(
     (booking) =>
-      booking.resourceCode === resourceCode && hasDateOverlap(checkIn, checkOut, booking.checkIn, booking.checkOut),
+      booking.resourceCode === resourceCode &&
+      booking.bookingDate === bookingDate &&
+      booking.bookingTime === bookingTime,
   )
   if (hasConflict) {
-    return res.status(409).json({ ok: false, error: 'Selected room or service is unavailable for those dates' })
+    return res.status(409).json({ ok: false, error: 'Selected service is unavailable for that day and time' })
   }
 
   data.bookings.push({
@@ -180,16 +168,14 @@ app.post('/bookings', async (req, res) => {
     email,
     resourceCode,
     resourceName: selectedResource.name,
-    totalAmount,
-    depositAmount,
-    checkIn,
-    checkOut,
+    bookingDate,
+    bookingTime,
     requests,
     createdAt: new Date().toISOString(),
   })
   await writeStore(data)
 
-  const bookingSummary = `${fullName} booked ${selectedResource.name} (${checkIn} to ${checkOut}). Deposit KES ${depositAmount.toLocaleString()}.`
+  const bookingSummary = `${fullName} booked ${selectedResource.name} on ${bookingDate} at ${bookingTime}.`
   const client = createTwilioClient()
   const smsFrom = env.TWILIO_SMS_NUMBER
   const whatsappFrom = env.TWILIO_WHATSAPP_NUMBER
@@ -201,7 +187,7 @@ app.post('/bookings', async (req, res) => {
   if (client && smsFrom) {
     try {
       await client.messages.create({
-        body: `Booking confirmed at Spatos: ${selectedResource.name} (${checkIn} - ${checkOut}).`,
+        body: `Booking confirmed at Spatos: ${selectedResource.name} on ${bookingDate} at ${bookingTime}.`,
         from: smsFrom,
         to: phone,
       })
@@ -224,7 +210,7 @@ app.post('/bookings', async (req, res) => {
   if (client && whatsappFrom) {
     try {
       await client.messages.create({
-        body: `Booking confirmed at Spatos: ${selectedResource.name} (${checkIn} - ${checkOut}).`,
+        body: `Booking confirmed at Spatos: ${selectedResource.name} on ${bookingDate} at ${bookingTime}.`,
         from: whatsappFrom,
         to: customerWhatsapp,
       })
@@ -249,6 +235,7 @@ app.post('/bookings', async (req, res) => {
   const mailPass = env.SMTP_PASS
   const mailPort = Number(env.SMTP_PORT || 587)
   const loungeEmail = env.LOUNGE_EMAIL || 'spatosplace@gmail.com'
+  const emailThemeLine = 'Thank you for choosing Spatos Lounge & Grill. We look forward to hosting you.'
 
   if (mailHost && mailUser && mailPass) {
     try {
@@ -260,9 +247,21 @@ app.post('/bookings', async (req, res) => {
       })
       await transporter.sendMail({
         from: env.SMTP_FROM || mailUser,
+        to: email,
+        subject: `Your Spatos Booking Confirmation - ${selectedResource.name}`,
+        text:
+          `${emailThemeLine}\n\nHi ${fullName},\n\n` +
+          `Your booking is confirmed for ${selectedResource.name} on ${bookingDate} at ${bookingTime}.\n` +
+          `If you need changes, call us at 0755 088 024 / 0738 187 465.\n\n` +
+          `- Spatos Lounge & Grill Team`,
+      })
+      await transporter.sendMail({
+        from: env.SMTP_FROM || mailUser,
         to: loungeEmail,
         subject: `New Spatos Booking: ${selectedResource.name}`,
-        text: `Customer: ${fullName}\nPhone: ${phone}\nEmail: ${email}\nService: ${selectedResource.name}\nDates: ${checkIn} to ${checkOut}\nDeposit: KES ${depositAmount}\nRequests: ${requests || 'None'}`,
+        text:
+          `Customer: ${fullName}\nPhone: ${phone}\nEmail: ${email}\nService: ${selectedResource.name}\n` +
+          `Date: ${bookingDate}\nTime: ${bookingTime}\nRequests: ${requests || 'None'}`,
       })
       twilioStatus.email = true
     } catch (error) {

@@ -105,19 +105,19 @@ export function SiteLayout() {
             <p>0755 088 024 / 0738 187 465 | spatosplace@gmail.com</p>
           </div>
           <div className="footer-social">
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
+            <a href="https://spatoplace.com/" target="_blank" rel="noreferrer" aria-label="Instagram">
               <FaInstagram />
               <span className="sr-only">Instagram</span>
             </a>
-            <a href="https://tiktok.com" target="_blank" rel="noreferrer" aria-label="TikTok">
+            <a href="https://spatoplace.com/" target="_blank" rel="noreferrer" aria-label="TikTok">
               <FaTiktok />
               <span className="sr-only">TikTok</span>
             </a>
-            <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
+            <a href="https://spatoplace.com/" target="_blank" rel="noreferrer" aria-label="Facebook">
               <FaFacebookF />
               <span className="sr-only">Facebook</span>
             </a>
-            <a href="https://x.com" target="_blank" rel="noreferrer" aria-label="X">
+            <a href="https://spatoplace.com/" target="_blank" rel="noreferrer" aria-label="X">
               <FaXTwitter />
               <span className="sr-only">X</span>
             </a>
