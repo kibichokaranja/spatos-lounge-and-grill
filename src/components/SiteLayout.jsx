@@ -105,19 +105,19 @@ export function SiteLayout() {
             <p>0755 088 024 / 0738 187 465 | spatosplace@gmail.com</p>
           </div>
           <div className="footer-social">
-            <a href="https://spatoplace.com/" target="_blank" rel="noreferrer" aria-label="Instagram">
+            <a href="#" aria-label="Instagram (link coming soon)" onClick={(event) => event.preventDefault()}>
               <FaInstagram />
               <span className="sr-only">Instagram</span>
             </a>
-            <a href="https://spatoplace.com/" target="_blank" rel="noreferrer" aria-label="TikTok">
+            <a href="#" aria-label="TikTok (link coming soon)" onClick={(event) => event.preventDefault()}>
               <FaTiktok />
               <span className="sr-only">TikTok</span>
             </a>
-            <a href="https://spatoplace.com/" target="_blank" rel="noreferrer" aria-label="Facebook">
+            <a href="#" aria-label="Facebook (link coming soon)" onClick={(event) => event.preventDefault()}>
               <FaFacebookF />
               <span className="sr-only">Facebook</span>
             </a>
-            <a href="https://spatoplace.com/" target="_blank" rel="noreferrer" aria-label="X">
+            <a href="#" aria-label="X (link coming soon)" onClick={(event) => event.preventDefault()}>
               <FaXTwitter />
               <span className="sr-only">X</span>
             </a>

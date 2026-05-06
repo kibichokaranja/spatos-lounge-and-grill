@@ -447,7 +447,7 @@ nav button:hover {
   position: fixed;
   left: 1.2rem;
   right: auto;
-  bottom: 5.2rem;
+  bottom: 1.2rem;
   z-index: 8;
 }
 
@@ -842,7 +842,7 @@ nav button:hover {
   .chatbot-shell {
     left: 0.7rem;
     right: auto;
-    bottom: 4.3rem;
+    bottom: 0.7rem;
   }
   .chatbot-panel {
     width: 100%;

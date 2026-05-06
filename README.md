@@ -54,3 +54,33 @@ Frontend runs on `http://localhost:5173` and backend API runs on `http://localho
 7. Booking emails:
    - customer receives a warm confirmation email
    - lounge receives booking details via email
+
+## Twilio production enablement checklist (Vercel + GitHub)
+
+1. Prepare Twilio account for delivery:
+   - Upgrade from trial if you want unrestricted customer delivery.
+   - Buy/activate an SMS-capable number and set it as `TWILIO_SMS_NUMBER`.
+   - Enable WhatsApp sender (Sandbox or approved WhatsApp Business sender) and set it as `TWILIO_WHATSAPP_NUMBER` in `whatsapp:+<number>` format.
+2. Verify destination numbers while on trial:
+   - Add your customer test number(s) and lounge number(s) in Twilio verified recipients.
+   - Keep `LOUNGE_PHONE_NUMBER` and `LOUNGE_WHATSAPP_NUMBER` in E.164 format (`+254...` and `whatsapp:+254...`).
+3. Set environment variables in Vercel project settings:
+   - `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`
+   - `TWILIO_SMS_NUMBER`, `TWILIO_WHATSAPP_NUMBER`
+   - `LOUNGE_PHONE_NUMBER`, `LOUNGE_WHATSAPP_NUMBER`, `LOUNGE_EMAIL`
+   - `WHATSAPP_VERIFY_TOKEN`
+   - SMTP values for subscription/booking emails (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`)
+4. Redeploy after env updates:
+   - Push to `main` (or redeploy latest commit) so runtime picks new secrets.
+5. Configure webhook callbacks (if using inbound WhatsApp automation):
+   - Verification URL: `GET https://<your-domain>/whatsapp/webhook`
+   - Messages URL: `POST https://<your-domain>/whatsapp/webhook`
+   - Use the same `WHATSAPP_VERIFY_TOKEN` in provider setup.
+6. Run quick production API checks:
+   - `GET /health` returns `{ ok: true }`
+   - `GET /booking-options` returns service options
+   - `POST /subscriptions` stores email and sends welcome mail when SMTP is valid
+   - `POST /bookings` returns `notifications` object and logs Twilio failures without breaking booking save
+7. Validate delivery in Twilio console:
+   - Confirm outbound message attempts for SMS and WhatsApp.
+   - If blocked, check trial restrictions, sender/channel mismatch, and E.164 formatting first.
