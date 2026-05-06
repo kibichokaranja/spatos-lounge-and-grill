@@ -142,6 +142,30 @@ nav button:hover {
   line-height: 1.6;
 }
 
+.hero-slide-image {
+  animation: heroFadeIn 0.7s ease;
+}
+
+.hero-dots {
+  display: flex;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+}
+
+.hero-dots button {
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(200, 168, 96, 0.7);
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  padding: 0;
+}
+
+.hero-dots button.is-active {
+  background: var(--gold);
+}
+
 .eyebrow {
   color: var(--gold-soft);
   text-transform: uppercase;
@@ -672,6 +696,15 @@ nav button:hover {
   }
 }
 
+@keyframes heroFadeIn {
+  from {
+    opacity: 0.65;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -790,7 +823,8 @@ nav button:hover {
   .landing-overlay.is-route-back,
   .landing-card,
   .route-transition,
-  .scroll-reveal {
+  .scroll-reveal,
+  .hero-slide-image {
     animation: none !important;
     transition: none !important;
   }

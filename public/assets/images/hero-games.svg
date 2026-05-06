@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Indoor Games</title>
+  <desc id="desc">Placeholder image for indoor games services.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#311616" />
+      <stop offset="100%" stop-color="#6b2b2b" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)" />
+  <circle cx="1290" cy="200" r="175" fill="#c8a860" opacity="0.2" />
+  <text x="120" y="430" fill="#f7f7f7" font-size="92" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Indoor Games</text>
+  <text x="120" y="510" fill="#ecd8ad" font-size="40" font-family="Segoe UI, Arial, sans-serif">Pool, Ludo, Chess, Jenga, Lyrical Correct, Do Or Drink</text>
+</svg>

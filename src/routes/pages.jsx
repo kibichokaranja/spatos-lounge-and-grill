@@ -16,14 +16,12 @@ const heroImages = {
 
 const testimonials = [
   {
-    quote:
-      'The team made us feel at home from arrival to checkout. Service was warm, professional, and proudly Kenyan.',
-    author: 'Achieng O., Nairobi',
+    quote: 'Great food, relaxing ambience, and excellent team support every time we visit.',
+    author: 'Grace M., Nairobi',
   },
   {
-    quote:
-      'Outstanding dining and a calm business environment. Perfect for executive travel and evening relaxation.',
-    author: 'Daniel K., Mombasa',
+    quote: 'From bar services to indoor games, Spatos is now our weekend go-to spot.',
+    author: 'Brian K., Kiambu',
   },
 ]
 
@@ -51,9 +49,10 @@ function RevealSection({ children, className = '' }) {
   )
 }
 
-function PageTemplate({ title, subtitle, image, cards, cta, galleryImages, heroScroll = false }) {
+function PageTemplate({ title, subtitle, image, cards, cta, galleryImages, heroScroll = false, heroSlides = null }) {
   usePageMeta(`Spatos Lounge&Grill | ${title}`, subtitle)
   const [scrollOffset, setScrollOffset] = useState(0)
+  const [activeSlide, setActiveSlide] = useState(0)
 
   useEffect(() => {
     if (!heroScroll) {
@@ -64,15 +63,50 @@ function PageTemplate({ title, subtitle, image, cards, cta, galleryImages, heroS
     return () => window.removeEventListener('scroll', onScroll)
   }, [heroScroll])
 
+  useEffect(() => {
+    if (!heroSlides || heroSlides.length < 2) {
+      return undefined
+    }
+    const timer = setInterval(() => {
+      setActiveSlide((current) => (current + 1) % heroSlides.length)
+    }, 4200)
+    return () => clearInterval(timer)
+  }, [heroSlides])
+
+  const currentHero = heroSlides?.[activeSlide] || null
+  const heroTitle = currentHero?.title || title
+  const heroSubtitle = currentHero?.subtitle || subtitle
+  const heroImage = currentHero?.image || image
+
   return (
     <>
       <section className={`hero-section ${heroScroll ? 'hero-scroll' : ''}`}>
-        <img src={image} alt={title} style={heroScroll ? { transform: `translateY(${scrollOffset}px)` } : {}} />
+        <img
+          key={heroImage}
+          className={heroSlides?.length ? 'hero-slide-image' : ''}
+          src={heroImage}
+          alt={heroTitle}
+          style={heroScroll ? { transform: `translateY(${scrollOffset}px)` } : {}}
+        />
         <div className="hero-copy container">
           <p className="eyebrow">Spatos Lounge&Grill</p>
-          <h2>{title}</h2>
-          <p>{subtitle}</p>
+          <h2>{heroTitle}</h2>
+          <p>{heroSubtitle}</p>
           {cta}
+          {heroSlides?.length ? (
+            <div className="hero-dots" role="tablist" aria-label="Homepage slides">
+              {heroSlides.map((slide, index) => (
+                <button
+                  key={slide.title}
+                  type="button"
+                  className={index === activeSlide ? 'is-active' : ''}
+                  aria-label={`Show slide ${index + 1}`}
+                  aria-pressed={index === activeSlide}
+                  onClick={() => setActiveSlide(index)}
+                />
+              ))}
+            </div>
+          ) : null}
         </div>
       </section>
       <RevealSection className="content-section container">
@@ -121,56 +155,92 @@ export function HomePage() {
   return (
     <>
       <PageTemplate
-        title="Luxury Hospitality in Nairobi"
-        subtitle="Experience refined comfort, world-class cuisine, and warm Kenyan service led by a vibrant local team."
+        title="Activities At Spatos Lounge & Grill"
+        subtitle="Enjoy restaurant, bar, carwash, barbershop & spa, and indoor games in one premium destination."
         image={heroImages.home}
-        heroScroll
-        cta={<ActionButton to="/book">Book Your Stay</ActionButton>}
+        cta={<ActionButton to="/contact">Plan Your Visit</ActionButton>}
+        heroSlides={[
+          {
+            title: 'Restaurant Services',
+            subtitle: 'Fresh meals and signature grill options served all day in a relaxed setting.',
+            image: '/assets/images/hero-restaurant.svg',
+          },
+          {
+            title: 'Bar Services',
+            subtitle: 'Premium drinks, cocktails, and lounge ambience for evening relaxation.',
+            image: '/assets/images/hero-bar.svg',
+          },
+          {
+            title: 'Carwash Services',
+            subtitle: 'Fast and careful carwash while you enjoy food, drinks, or indoor activities.',
+            image: '/assets/images/hero-carwash.svg',
+          },
+          {
+            title: 'Barbershop & Spa',
+            subtitle: 'Professional grooming and wellness care tailored to your schedule.',
+            image: '/assets/images/hero-spa.svg',
+          },
+          {
+            title: 'Indoor Games',
+            subtitle: 'Pool table, drinking ludo, chess mat, jenga classic, lyrical correct, and do or drink.',
+            image: '/assets/images/hero-games.svg',
+          },
+        ]}
         cards={[
           {
-            title: 'Elegant Suites',
-            description: 'Modern rooms with premium bedding, skyline views, and tailored concierge support.',
+            title: 'Restaurant Services',
+            description: 'Local and international dishes, grilled favorites, and daily specials for lunch and dinner.',
           },
           {
-            title: 'Lounge & Grill',
-            description: 'Signature East African and international dishes crafted by top culinary professionals.',
+            title: 'Bar Services',
+            description: 'Classic cocktails, premium spirits, and chilled beverages served in a vibrant lounge space.',
           },
           {
-            title: 'Curated Experiences',
-            description: 'From business travel to weekend escapes, every stay is personalized for comfort.',
+            title: 'Carwash Services',
+            description: 'Exterior and interior cleaning handled by a dependable team while you relax on-site.',
+          },
+          {
+            title: 'Barbershop & Spa',
+            description: 'Haircuts, grooming, and spa treatments designed for comfort and personal style.',
+          },
+          {
+            title: 'Indoor Games',
+            description: 'Pool Table, Drinking Ludo, Chess Mat, Jenga Classic, Lyrical Correct, and Do Or Drink.',
           },
         ]}
         galleryImages={[
-          '/assets/images/strip-1.jpg',
-          '/assets/images/strip-2.jpg',
-          '/assets/images/strip-3.jpg',
+          '/assets/images/service-restaurant.svg',
+          '/assets/images/service-bar.svg',
+          '/assets/images/service-carwash.svg',
+          '/assets/images/service-spa.svg',
+          '/assets/images/service-games.svg',
         ]}
       />
       <RevealSection className="content-section container home-extra">
         <div className="card-grid">
           <article className="content-card">
-            <h3>Weekend Escape Package</h3>
-            <p>2-night stay, breakfast, and lounge dinner experience tailored for couples and families.</p>
+            <h3>Food and Drink Experience</h3>
+            <p>Pair restaurant favorites with bar specials for group hangouts, date nights, and casual meetups.</p>
           </article>
           <article className="content-card">
-            <h3>Corporate Traveler Edge</h3>
-            <p>Fast check-in, meeting room access, airport transfer support, and business concierge assistance.</p>
+            <h3>Convenience While You Wait</h3>
+            <p>Get your car cleaned or enjoy a quick grooming session while spending time in the lounge.</p>
           </article>
           <article className="content-card">
-            <h3>Wellness and Leisure</h3>
-            <p>Morning fitness recommendations, calm lounge zones, and personalized dining preferences.</p>
+            <h3>Social Gaming Zone</h3>
+            <p>Compete with friends using indoor games designed to keep the energy high and the fun going.</p>
           </article>
         </div>
       </RevealSection>
       <RevealSection className="content-section container home-extra">
         <div className="trust-panel">
           <p className="eyebrow">Why Guests Return</p>
-          <h3>Consistent hospitality and premium value</h3>
+          <h3>Five premium services in one destination</h3>
           <p>
-            From romantic stays to executive visits, Spatos delivers dependable comfort, attentive service,
-            and polished hospitality throughout your stay.
+            Spatos Lounge & Grill now focuses on restaurant, bar, carwash, barbershop & spa, and indoor games
+            so every visit gives you more value and convenience in one place.
           </p>
-          <ActionButton to="/rooms">Explore Rooms</ActionButton>
+          <ActionButton to="/contact">Contact Spatos</ActionButton>
         </div>
       </RevealSection>
     </>
