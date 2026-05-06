@@ -438,8 +438,22 @@ nav button:hover {
 .chatbot-shell {
   position: fixed;
   right: 1.2rem;
-  bottom: 1.2rem;
+  bottom: 5.2rem;
   z-index: 8;
+}
+
+.floating-call-btn {
+  position: fixed;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  z-index: 9;
+  border: 1px solid rgba(200, 168, 96, 0.6);
+  background: var(--gold);
+  color: #111;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
 }
 
 .chatbot-toggle {
@@ -812,10 +826,14 @@ nav button:hover {
   .chatbot-shell {
     right: 0.7rem;
     left: 0.7rem;
-    bottom: 0.7rem;
+    bottom: 4.3rem;
   }
   .chatbot-panel {
     width: 100%;
+  }
+  .floating-call-btn {
+    right: 0.7rem;
+    bottom: 0.7rem;
   }
   .footer-row {
     flex-direction: column;

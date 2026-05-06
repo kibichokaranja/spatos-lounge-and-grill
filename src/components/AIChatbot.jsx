@@ -3,8 +3,11 @@ import { useMemo, useState } from 'react'
 function getBotReply(message) {
   const text = message.toLowerCase()
 
-  if (text.includes('room') || text.includes('suite')) {
-    return 'We offer Deluxe Room (KES 15,000), Executive Suite (KES 24,000), and Family Suite (KES 28,000). I can guide you to booking.'
+  if (text.includes('barber') || text.includes('spa') || text.includes('groom')) {
+    return 'Our barbershop & spa offers grooming and wellness sessions. You can request preferred date/time on the Book page.'
+  }
+  if (text.includes('game') || text.includes('pool') || text.includes('ludo') || text.includes('chess')) {
+    return 'Indoor games include Pool Table, Drinking Ludo, Chess Mat, Jenga Classic, Lyrical Correct, and Do Or Drink.'
   }
   if (text.includes('deposit') || text.includes('40%') || text.includes('payment')) {
     return 'Online bookings require a 40% deposit. The booking page shows the full amount and required deposit before you submit.'
@@ -18,17 +21,17 @@ function getBotReply(message) {
   if (text.includes('dining') || text.includes('grill') || text.includes('restaurant') || text.includes('menu')) {
     return 'Our Lounge & Grill serves Kenyan favorites, breakfast selections, and signature grill meals daily from 6:30 AM.'
   }
-  if (text.includes('event') || text.includes('conference') || text.includes('wedding')) {
-    return 'We host conferences, weddings, and private events. Use the Events page or Contact page and our team will support planning.'
+  if (text.includes('event') || text.includes('meeting') || text.includes('conference')) {
+    return 'We host small events and business meetings. Use the Events page or Contact page and our team will help you plan.'
   }
   if (text.includes('book') || text.includes('availability') || text.includes('reserve')) {
-    return 'You can book directly on the Book page. Unavailable rooms/services are blocked automatically for selected dates.'
+    return 'You can book directly on the Book page. Unavailable services are blocked automatically for selected dates.'
   }
   if (text.includes('hello') || text.includes('hi')) {
-    return 'Hello and welcome to Spatos Lounge&Grill. Ask me about rooms, bookings, deposits, dining, events, or location.'
+    return 'Hello and welcome to Spatos Lounge&Grill. Ask me about services, bookings, deposits, events, or location.'
   }
 
-  return 'I can help with rooms, booking availability, 40% deposits, dining, events, and location details. What would you like to know?'
+  return 'I can help with service booking availability, 40% deposits, dining, events, and location details. What would you like to know?'
 }
 
 export function AIChatbot() {
@@ -37,12 +40,12 @@ export function AIChatbot() {
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
-      text: 'Welcome to Spatos AI Concierge. Ask me about bookings, rooms, dining, events, or contact details.',
+      text: 'Welcome to Spatos AI Concierge. Ask me about bookings, services, dining, events, or contact details.',
     },
   ])
 
   const quickPrompts = useMemo(
-    () => ['Room prices', '40% deposit', 'Hotel location', 'Dining options'],
+    () => ['Service prices', '40% deposit', 'Lounge location', 'Dining options'],
     [],
   )
 

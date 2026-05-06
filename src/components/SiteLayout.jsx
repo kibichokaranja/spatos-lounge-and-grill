@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useLanding } from './useLanding'
 import { LandingOverlay } from './LandingOverlay'
-import { OfferPopup } from './OfferPopup'
 import { SubscribeSection } from './SubscribeSection'
 import { AIChatbot } from './AIChatbot'
 import { FaFacebookF, FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6'
@@ -21,7 +20,6 @@ export function SiteLayout() {
   const { isLandingVisible, setIsLandingVisible, setPendingPath, landingMode, setLandingMode } = useLanding()
   const navigate = useNavigate()
   const location = useLocation()
-  const [showOffer, setShowOffer] = useState(false)
   const routeTransitionRef = useRef(null)
   const isRouteTransitioningRef = useRef(false)
 
@@ -43,18 +41,6 @@ export function SiteLayout() {
     }
   }, [])
 
-  useEffect(() => {
-    const firstVisit = sessionStorage.getItem('spatos_offer_seen')
-    if (!firstVisit) {
-      const offerTimer = setTimeout(() => {
-        setShowOffer(true)
-        sessionStorage.setItem('spatos_offer_seen', 'true')
-      }, 2200)
-      return () => clearTimeout(offerTimer)
-    }
-    return undefined
-  }, [])
-
   const openRouteWithLanding = (path) => {
     if (path !== location.pathname && !isRouteTransitioningRef.current) {
       isRouteTransitioningRef.current = true
@@ -73,7 +59,6 @@ export function SiteLayout() {
   return (
     <div className="site-shell">
       {isLandingVisible ? <LandingOverlay mode={landingMode} /> : null}
-      {showOffer ? <OfferPopup onClose={() => setShowOffer(false)} /> : null}
       <header className="site-header">
         <div className="container nav-row nav-container">
           <div className="brand-wrap">
@@ -109,6 +94,9 @@ export function SiteLayout() {
 
       <SubscribeSection />
       <AIChatbot />
+      <a className="floating-call-btn" href="tel:+254755088024" aria-label="Call Spatos Lounge and Grill">
+        Call Now
+      </a>
       <footer className="site-footer">
         <div className="container footer-row">
           <div>

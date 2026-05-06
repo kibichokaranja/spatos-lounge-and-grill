@@ -33,8 +33,11 @@ export function SubscribeSection() {
       <div className="container subscribe-inner">
         <div>
           <p className="eyebrow">Stay Updated</p>
-          <h3>Exclusive offers from Spatos</h3>
-          <p>Get room packages, dining specials, and event announcements first.</p>
+          <h3>Service updates from Spatos Lounge</h3>
+          <p>
+            Get updates on restaurant offers, bar specials, carwash slots, barbershop & spa sessions, and indoor
+            games events.
+          </p>
         </div>
         <form onSubmit={handleSubmit} className="subscribe-form">
           <label htmlFor="subscribe-email" className="sr-only">

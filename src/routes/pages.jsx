@@ -266,13 +266,13 @@ export function HomePage() {
           },
           {
             image: '/assets/images/real/slide-4.png',
-            title: 'Barbershop & Spa',
-            description: 'Haircuts, grooming, and spa treatments designed for comfort and personal style.',
+            title: 'Indoor Games',
+            description: 'Pool Table, Drinking Ludo, Chess Mat, Jenga Classic, Lyrical Correct, and Do Or Drink.',
           },
           {
             image: '/assets/images/real/slide-5.png',
-            title: 'Indoor Games',
-            description: 'Pool Table, Drinking Ludo, Chess Mat, Jenga Classic, Lyrical Correct, and Do Or Drink.',
+            title: 'Barbershop & Spa',
+            description: 'Haircuts, grooming, and spa treatments designed for comfort and personal style.',
           },
         ]}
         showServicesContactCta
@@ -309,11 +309,18 @@ export function HomePage() {
 }
 
 export function DiningPage() {
+  const diningSlides = realPhotoSlides.slice(0, 6).map((image) => ({
+    title: 'Dining',
+    subtitle: 'Real lounge dining experiences at Spatos.',
+    image,
+  }))
+
   return (
     <PageTemplate
       title="Lounge & Grill"
       subtitle="Fine dining with Kenyan favorites, grilled specialties, and handcrafted beverages."
-      image={heroImages.dining}
+      image={realPhotoSlides[0]}
+      heroSlides={diningSlides}
       cta={<ActionButton to="/contact">Reserve a Table</ActionButton>}
       cards={[
         { title: 'Breakfast Selection', description: 'Healthy starts, local teas, fresh fruits, and bakery options.' },
@@ -321,30 +328,37 @@ export function DiningPage() {
         { title: 'Evening Lounge', description: 'Live ambiance, curated playlists, and chef tasting pairings.' },
       ]}
       galleryImages={[
-        '/assets/images/strip-1.jpg',
-        '/assets/images/strip-2.jpg',
-        '/assets/images/strip-3.jpg',
+        realPhotoSlides[0],
+        realPhotoSlides[8],
+        realPhotoSlides[9],
       ]}
     />
   )
 }
 
 export function EventsPage() {
+  const eventsSlides = realPhotoSlides.slice(2, 9).map((image) => ({
+    title: 'Small Events & Meetings',
+    subtitle: 'Ideal for small events and business meetings at Spatos.',
+    image,
+  }))
+
   return (
     <PageTemplate
-      title="Events & Conferences"
-      subtitle="Host business meetings, weddings, and private celebrations in elegant spaces."
-      image={heroImages.events}
-      cta={<ActionButton to="/contact">Plan an Event</ActionButton>}
+      title="Small Events & Business Meetings"
+      subtitle="Host focused business meetings and small private events in a comfortable lounge setup."
+      image={realPhotoSlides[2]}
+      heroSlides={eventsSlides}
+      cta={<ActionButton to="/contact">Plan a Small Event</ActionButton>}
       cards={[
-        { title: 'Conference Halls', description: 'Audio-visual support, staging, and high-speed connectivity.' },
-        { title: 'Wedding Packages', description: 'Venue styling, catering, and dedicated event coordination.' },
-        { title: 'Corporate Catering', description: 'Custom menus for conferences, launches, and VIP receptions.' },
+        { title: 'Business Meetings', description: 'Private setup with dependable service and practical meeting space.' },
+        { title: 'Small Celebrations', description: 'Intimate event setups for birthdays, team outings, and gatherings.' },
+        { title: 'Lounge Catering', description: 'Food and drink packages tailored for smaller groups and schedules.' },
       ]}
       galleryImages={[
-        '/assets/images/strip-1.jpg',
-        '/assets/images/strip-2.jpg',
-        '/assets/images/strip-3.jpg',
+        realPhotoSlides[2],
+        realPhotoSlides[5],
+        realPhotoSlides[10],
       ]}
     />
   )
@@ -381,21 +395,28 @@ export function GalleryPage() {
 }
 
 export function AboutPage() {
+  const aboutSlides = realPhotoSlides.slice(4, 12).map((image) => ({
+    title: 'About Spatos',
+    subtitle: 'Built around real service quality and local hospitality.',
+    image,
+  }))
+
   return (
     <PageTemplate
       title="About Spatos"
       subtitle="Spatos Lounge&Grill celebrates Kenyan excellence in hospitality, service, and culinary craft."
-      image={heroImages.about}
+      image={realPhotoSlides[4]}
+      heroSlides={aboutSlides}
       cta={<ActionButton to="/contact">Meet Our Team</ActionButton>}
       cards={[
-        { title: 'Our Vision', description: 'To become East Africa’s most trusted destination for premium stays.' },
-        { title: 'Our People', description: 'A diverse Kenyan team committed to warm, professional service.' },
-        { title: 'Our Promise', description: 'Consistency, elegance, and value from check-in to departure.' },
+        { title: 'Our Vision', description: 'To be a trusted local destination for food, grooming, games, and convenience services.' },
+        { title: 'Our People', description: 'A dedicated team delivering warm service across all five core service lines.' },
+        { title: 'Our Promise', description: 'Reliable quality, practical value, and memorable lounge experiences every visit.' },
       ]}
       galleryImages={[
-        '/assets/images/strip-1.jpg',
-        '/assets/images/strip-2.jpg',
-        '/assets/images/strip-3.jpg',
+        realPhotoSlides[4],
+        realPhotoSlides[6],
+        realPhotoSlides[11],
       ]}
     />
   )
@@ -412,7 +433,12 @@ export function ContactPage() {
       <PageTemplate
         title="Contact & Location"
         subtitle="Visit us in Nairobi or connect with our front desk for reservations and concierge support."
-        image={heroImages.contact}
+        image={realPhotoSlides[1]}
+        heroSlides={realPhotoSlides.slice(0, 7).map((slide) => ({
+          title: 'Contact & Location',
+          subtitle: 'Reach us for service bookings, small events, and business meetings.',
+          image: slide,
+        }))}
         cta={<ActionButton to="/book">Make a Reservation</ActionButton>}
         cards={[
           { title: 'Front Desk', description: 'Call: 0755 088 024 / 0738 187 465 | Email: spatosplace@gmail.com' },
@@ -420,9 +446,9 @@ export function ContactPage() {
           { title: 'Hours', description: 'Hotel and reception open 24/7, dining opens from 6:30 AM daily.' },
         ]}
         galleryImages={[
-          '/assets/images/strip-1.jpg',
-          '/assets/images/strip-2.jpg',
-          '/assets/images/strip-3.jpg',
+          realPhotoSlides[1],
+          realPhotoSlides[3],
+          realPhotoSlides[7],
         ]}
       />
       <section className="content-section container">
@@ -457,6 +483,7 @@ export function BookPage() {
 
   const [form, setForm] = useState({
     fullName: '',
+    phone: '',
     email: '',
     resourceCode: '',
     checkIn: '',
@@ -487,7 +514,7 @@ export function BookPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    if (!form.fullName.trim() || !form.email.trim() || !form.resourceCode || !form.checkIn || !form.checkOut) {
+    if (!form.fullName.trim() || !form.phone.trim() || !form.email.trim() || !form.resourceCode || !form.checkIn || !form.checkOut) {
       setFeedback('Please complete all required booking fields.')
       return
     }
@@ -505,10 +532,11 @@ export function BookPage() {
       return
     }
     setFeedback(
-      'Booking request submitted successfully. Your selected room or service is now marked unavailable for those dates.',
+      'Booking confirmed. A message has been sent to your phone and WhatsApp, and details were shared with the lounge contacts.',
     )
     setForm({
       fullName: '',
+      phone: '',
       email: '',
       resourceCode: '',
       checkIn: '',
@@ -539,6 +567,14 @@ export function BookPage() {
           name="email"
           placeholder="Email address"
           value={form.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Phone number (e.g. +2547...)"
+          value={form.phone}
           onChange={handleChange}
           required
         />
