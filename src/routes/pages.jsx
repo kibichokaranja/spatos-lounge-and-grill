@@ -63,7 +63,18 @@ function RevealSection({ children, className = '' }) {
   )
 }
 
-function PageTemplate({ title, subtitle, image, cards, cta, galleryImages, heroScroll = false, heroSlides = null }) {
+function PageTemplate({
+  title,
+  subtitle,
+  image,
+  cards,
+  cta,
+  galleryImages,
+  heroScroll = false,
+  heroSlides = null,
+  serviceTiles = null,
+  showServicesContactCta = false,
+}) {
   usePageMeta(`Spatos Lounge&Grill | ${title}`, subtitle)
   const [scrollOffset, setScrollOffset] = useState(0)
   const [activeSlide, setActiveSlide] = useState(0)
@@ -103,7 +114,6 @@ function PageTemplate({ title, subtitle, image, cards, cta, galleryImages, heroS
           style={heroScroll ? { transform: `translateY(${scrollOffset}px)` } : {}}
         />
         <div className="hero-copy container">
-          <p className="eyebrow">Spatos Lounge&Grill</p>
           <h2>{heroTitle}</h2>
           <p>{heroSubtitle}</p>
           {cta}
@@ -124,19 +134,44 @@ function PageTemplate({ title, subtitle, image, cards, cta, galleryImages, heroS
         </div>
       </section>
       <RevealSection className="content-section container">
-        <div className="image-strip">
-          {galleryImages.map((galleryImage) => (
-            <img key={galleryImage} src={galleryImage} alt={title} />
-          ))}
-        </div>
-        <div className="card-grid">
-          {cards.map((card) => (
-            <article key={card.title} className="content-card">
-              <h3>{card.title}</h3>
-              <p>{card.description}</p>
-            </article>
-          ))}
-        </div>
+        {serviceTiles?.length ? (
+          <>
+            <div className="service-tile-grid">
+              {serviceTiles.map((tile) => (
+                <article key={tile.title} className="service-tile">
+                  <img src={tile.image} alt={tile.title} />
+                  <div className="content-card">
+                    <h3>{tile.title}</h3>
+                    <p>{tile.description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+            {showServicesContactCta ? (
+              <div className="section-cta-row">
+                <ActionButton to="/contact" className="btn btn-arrow">
+                  Contact <span aria-hidden="true">{'->'}</span>
+                </ActionButton>
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <>
+            <div className="image-strip">
+              {galleryImages.map((galleryImage) => (
+                <img key={galleryImage} src={galleryImage} alt={title} />
+              ))}
+            </div>
+            <div className="card-grid">
+              {cards.map((card) => (
+                <article key={card.title} className="content-card">
+                  <h3>{card.title}</h3>
+                  <p>{card.description}</p>
+                </article>
+              ))}
+            </div>
+          </>
+        )}
       </RevealSection>
       <RevealSection className="trust-section container">
         <article className="trust-panel">
@@ -178,7 +213,11 @@ export function HomePage() {
         title="Activities At Spatos Lounge & Grill"
         subtitle="Enjoy restaurant, bar, carwash, barbershop & spa, and indoor games in one premium destination."
         image={heroImages.home}
-        cta={<ActionButton to="/contact">Plan Your Visit</ActionButton>}
+        cta={
+          <ActionButton to="/contact" className="btn btn-arrow">
+            Contact <span aria-hidden="true">{'->'}</span>
+          </ActionButton>
+        }
         heroSlides={homeHeroSlides}
         cards={[
           {
@@ -209,6 +248,34 @@ export function HomePage() {
           '/assets/images/real/slide-4.png',
           '/assets/images/real/slide-5.png',
         ]}
+        serviceTiles={[
+          {
+            image: '/assets/images/real/slide-1.png',
+            title: 'Restaurant Services',
+            description: 'Local and international dishes, grilled favorites, and daily specials for lunch and dinner.',
+          },
+          {
+            image: '/assets/images/real/slide-2.png',
+            title: 'Bar Services',
+            description: 'Classic cocktails, premium spirits, and chilled beverages served in a vibrant lounge space.',
+          },
+          {
+            image: '/assets/images/real/slide-3.png',
+            title: 'Carwash Services',
+            description: 'Exterior and interior cleaning handled by a dependable team while you relax on-site.',
+          },
+          {
+            image: '/assets/images/real/slide-4.png',
+            title: 'Barbershop & Spa',
+            description: 'Haircuts, grooming, and spa treatments designed for comfort and personal style.',
+          },
+          {
+            image: '/assets/images/real/slide-5.png',
+            title: 'Indoor Games',
+            description: 'Pool Table, Drinking Ludo, Chess Mat, Jenga Classic, Lyrical Correct, and Do Or Drink.',
+          },
+        ]}
+        showServicesContactCta
       />
       <RevealSection className="content-section container home-extra">
         <div className="card-grid">
