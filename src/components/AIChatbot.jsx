@@ -9,8 +9,8 @@ function getBotReply(message) {
   if (text.includes('game') || text.includes('pool') || text.includes('ludo') || text.includes('chess')) {
     return 'Indoor games include Pool Table, Drinking Ludo, Chess Mat, Jenga Classic, Lyrical Correct, and Do Or Drink.'
   }
-  if (text.includes('deposit') || text.includes('40%') || text.includes('payment')) {
-    return 'Online bookings require a 40% deposit. The booking page shows the full amount and required deposit before you submit.'
+  if (text.includes('deposit') || text.includes('40%') || text.includes('payment') || text.includes('price')) {
+    return 'Bookings are service-based with no upfront price display. Pick your service, day, and time and our team confirms details.'
   }
   if (text.includes('location') || text.includes('where') || text.includes('address')) {
     return 'Spatos Lounge&Grill is located along the Bypass at Corner Estate, Nairobi.'
@@ -25,13 +25,13 @@ function getBotReply(message) {
     return 'We host small events and business meetings. Use the Events page or Contact page and our team will help you plan.'
   }
   if (text.includes('book') || text.includes('availability') || text.includes('reserve')) {
-    return 'You can book directly on the Book page. Unavailable services are blocked automatically for selected dates.'
+    return 'You can book directly on the Book page by selecting service, day, and time. If a slot is taken, you will be prompted to choose another.'
   }
   if (text.includes('hello') || text.includes('hi')) {
     return 'Hello and welcome to Spatos Lounge&Grill. Ask me about services, bookings, deposits, events, or location.'
   }
 
-  return 'I can help with service booking availability, 40% deposits, dining, events, and location details. What would you like to know?'
+  return 'I can help with service booking availability, dining, events, and location details. What would you like to know?'
 }
 
 export function AIChatbot() {
@@ -45,7 +45,7 @@ export function AIChatbot() {
   ])
 
   const quickPrompts = useMemo(
-    () => ['Service prices', '40% deposit', 'Lounge location', 'Dining options'],
+    () => ['Service booking', 'Lounge location', 'Dining options', 'Event planning'],
     [],
   )
 

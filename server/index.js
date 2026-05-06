@@ -31,8 +31,8 @@ function getWhatsAppReply(message) {
   if (text.includes('game') || text.includes('pool') || text.includes('ludo') || text.includes('chess')) {
     return 'Indoor games available: Pool Table, Drinking Ludo, Chess Mat, Jenga Classic, Lyrical Correct, Do Or Drink.'
   }
-  if (text.includes('deposit') || text.includes('40%') || text.includes('payment')) {
-    return 'For online reservations we require a 40% deposit before confirmation.'
+  if (text.includes('deposit') || text.includes('40%') || text.includes('payment') || text.includes('price')) {
+    return 'Bookings are service-based. Share your preferred service, date, and time and our team will confirm availability.'
   }
   if (text.includes('location') || text.includes('where') || text.includes('address')) {
     return 'Spatos Lounge&Grill is located along the Bypass at Corner Estate, Nairobi.'
@@ -60,9 +60,13 @@ function createTwilioClient() {
 
 app.get('/booking-options', async (_req, res) => {
   const data = await readStore()
+  const now = new Date()
   const options = serviceOptions.map((resource) => {
     const hasFutureBooking = data.bookings.some(
-      (booking) => booking.resourceCode === resource.code && new Date(booking.checkOut) > new Date(),
+      (booking) =>
+        booking.resourceCode === resource.code &&
+        booking.bookingDate &&
+        new Date(`${booking.bookingDate}T${booking.bookingTime || '00:00'}`) > now,
     )
     return {
       ...resource,
@@ -130,6 +134,33 @@ app.post('/subscriptions', async (req, res) => {
     createdAt: new Date().toISOString(),
   })
   await writeStore(data)
+
+  const mailHost = env.SMTP_HOST
+  const mailUser = env.SMTP_USER
+  const mailPass = env.SMTP_PASS
+  const mailPort = Number(env.SMTP_PORT || 587)
+  if (mailHost && mailUser && mailPass) {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: mailHost,
+        port: mailPort,
+        secure: mailPort === 465,
+        auth: { user: mailUser, pass: mailPass },
+      })
+      await transporter.sendMail({
+        from: env.SMTP_FROM || mailUser,
+        to: email,
+        subject: 'Welcome to Spatos Lounge & Grill Updates',
+        text:
+          'Thank you for subscribing to Spatos Lounge & Grill updates.\n\n' +
+          'We will share service updates for our restaurant, bar, carwash, barbershop & spa, indoor games, and small events.\n\n' +
+          'If you need immediate assistance, call 0755 088 024 / 0738 187 465.',
+      })
+    } catch (error) {
+      console.error('Subscription email delivery failed', error)
+    }
+  }
+
   return res.status(201).json({ ok: true })
 })
 

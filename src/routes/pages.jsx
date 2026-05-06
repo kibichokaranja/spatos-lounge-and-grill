@@ -334,7 +334,7 @@ export function DiningPage() {
       galleryImages={[
         realPhotoSlides[0],
         realPhotoSlides[8],
-        realPhotoSlides[9],
+        realPhotoSlides[10],
       ]}
     />
   )
