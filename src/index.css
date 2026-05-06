@@ -349,6 +349,14 @@ nav button:hover {
   grid-column: 1 / -1;
 }
 
+.booking-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  color: var(--gold-soft);
+  font-size: 0.86rem;
+}
+
 .booking-links {
   margin-top: 0.8rem;
   display: flex;
@@ -454,16 +462,23 @@ nav button:hover {
   padding: 0.65rem 1rem;
   font-weight: 700;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  width: 120px;
+  text-align: center;
 }
 
 .chatbot-toggle {
-  border: 1px solid rgba(200, 168, 96, 0.5);
-  background: #111;
-  color: var(--gold);
+  border: 1px solid rgba(200, 168, 96, 0.6);
+  background: var(--gold);
+  color: #111;
   border-radius: 999px;
-  padding: 0.6rem 1rem;
+  width: 120px;
+  height: 43px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  font-size: 1.05rem;
 }
 
 .chatbot-panel {

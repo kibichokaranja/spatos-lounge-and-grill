@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { FaRegMessage } from 'react-icons/fa6'
 
 function getBotReply(message) {
   const text = message.toLowerCase()
@@ -108,8 +109,9 @@ export function AIChatbot() {
           </div>
         </div>
       ) : null}
-      <button type="button" className="chatbot-toggle" onClick={() => setIsOpen((prev) => !prev)}>
-        AI Assistant
+      <button type="button" className="chatbot-toggle" onClick={() => setIsOpen((prev) => !prev)} aria-label="Open chat">
+        <FaRegMessage />
+        <span className="sr-only">Open chat</span>
       </button>
     </div>
   )

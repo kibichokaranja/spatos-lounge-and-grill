@@ -214,9 +214,9 @@ export function HomePage() {
         subtitle="Enjoy restaurant, bar, carwash, barbershop & spa, and indoor games in one premium destination."
         image={heroImages.home}
         cta={
-          <ActionButton to="/contact" className="btn btn-arrow">
+          <a className="btn btn-arrow" href="tel:+254755088024" aria-label="Call now">
             Contact <span aria-hidden="true">{'->'}</span>
-          </ActionButton>
+          </a>
         }
         heroSlides={homeHeroSlides}
         cards={[
@@ -321,7 +321,11 @@ export function DiningPage() {
       subtitle="Fine dining with Kenyan favorites, grilled specialties, and handcrafted beverages."
       image={realPhotoSlides[0]}
       heroSlides={diningSlides}
-      cta={<ActionButton to="/contact">Reserve a Table</ActionButton>}
+      cta={
+        <a className="btn btn-arrow" href="tel:+254755088024" aria-label="Call to reserve a table">
+          Reserve a Table <span aria-hidden="true">{'->'}</span>
+        </a>
+      }
       cards={[
         { title: 'Breakfast Selection', description: 'Healthy starts, local teas, fresh fruits, and bakery options.' },
         { title: 'Signature Grill', description: 'Premium meats, seafood, and vegetarian grill creations.' },
@@ -330,7 +334,7 @@ export function DiningPage() {
       galleryImages={[
         realPhotoSlides[0],
         realPhotoSlides[8],
-        realPhotoSlides[9],
+        realPhotoSlides[11],
       ]}
     />
   )
@@ -349,7 +353,11 @@ export function EventsPage() {
       subtitle="Host focused business meetings and small private events in a comfortable lounge setup."
       image={realPhotoSlides[2]}
       heroSlides={eventsSlides}
-      cta={<ActionButton to="/contact">Plan a Small Event</ActionButton>}
+      cta={
+        <a className="btn btn-arrow" href="tel:+254755088024" aria-label="Call to plan a small event">
+          Plan a Small Event <span aria-hidden="true">{'->'}</span>
+        </a>
+      }
       cards={[
         { title: 'Business Meetings', description: 'Private setup with dependable service and practical meeting space.' },
         { title: 'Small Celebrations', description: 'Intimate event setups for birthdays, team outings, and gatherings.' },
@@ -376,7 +384,11 @@ export function GalleryPage() {
       title="Gallery"
       subtitle="A visual tour of our hotel, dining, and guest experiences across Spatos spaces."
       image={heroImages.gallery}
-      cta={<ActionButton to="/contact">Plan Your Visit</ActionButton>}
+      cta={
+        <a className="btn btn-arrow" href="tel:+254755088024" aria-label="Call to plan your visit">
+          Plan Your Visit <span aria-hidden="true">{'->'}</span>
+        </a>
+      }
       heroSlides={galleryHeroSlides}
       cards={[
         { title: 'Interiors', description: 'Contemporary decor blending African warmth with premium comfort.' },
@@ -407,7 +419,11 @@ export function AboutPage() {
       subtitle="Spatos Lounge&Grill celebrates Kenyan excellence in hospitality, service, and culinary craft."
       image={realPhotoSlides[4]}
       heroSlides={aboutSlides}
-      cta={<ActionButton to="/contact">Meet Our Team</ActionButton>}
+      cta={
+        <a className="btn btn-arrow" href="tel:+254755088024" aria-label="Call to meet our team">
+          Meet Our Team <span aria-hidden="true">{'->'}</span>
+        </a>
+      }
       cards={[
         { title: 'Our Vision', description: 'To be a trusted local destination for food, grooming, games, and convenience services.' },
         { title: 'Our People', description: 'A dedicated team delivering warm service across all five core service lines.' },
@@ -439,7 +455,11 @@ export function ContactPage() {
           subtitle: 'Reach us for service bookings, small events, and business meetings.',
           image: slide,
         }))}
-        cta={<ActionButton to="/book">Make a Reservation</ActionButton>}
+        cta={
+          <a className="btn btn-arrow" href="tel:+254755088024" aria-label="Call to make a reservation">
+            Make a Reservation <span aria-hidden="true">{'->'}</span>
+          </a>
+        }
         cards={[
           { title: 'Front Desk', description: 'Call: 0755 088 024 / 0738 187 465 | Email: spatosplace@gmail.com' },
           { title: 'Address', description: 'Located along the Bypass at Corner Estate' },
@@ -466,7 +486,7 @@ export function ContactPage() {
         <iframe
           className="map-embed"
           title="Spatos Lounge and Grill location map"
-          src="https://maps.google.com/maps?q=Nairobi%20CBD&t=&z=13&ie=UTF8&iwloc=&output=embed"
+          src="https://maps.google.com/maps?q=RX8W%2BM3C%2C%20Ruiru&t=&z=15&ie=UTF8&iwloc=&output=embed"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
@@ -519,7 +539,7 @@ export function BookPage() {
       return
     }
     if (new Date(form.checkOut) <= new Date(form.checkIn)) {
-      setFeedback('Check-out date must be after check-in date.')
+      setFeedback('Service end date must be after service start date.')
       return
     }
     const result = await submitBooking({
@@ -550,8 +570,8 @@ export function BookPage() {
       <p className="eyebrow">Book Now</p>
       <h2>Reserve your Spatos experience</h2>
       <p>
-        Tell us your dates and preferences. Our team will respond promptly with available services and curated
-        packages.
+        Choose your preferred service dates below. Our team will confirm availability for the selected lounge
+        service and respond promptly.
       </p>
       <form className="booking-form" onSubmit={handleSubmit}>
         <input
@@ -586,8 +606,14 @@ export function BookPage() {
             </option>
           ))}
         </select>
-        <input type="date" name="checkIn" value={form.checkIn} onChange={handleChange} required />
-        <input type="date" name="checkOut" value={form.checkOut} onChange={handleChange} required />
+        <label>
+          Service Start Date
+          <input type="date" name="checkIn" value={form.checkIn} onChange={handleChange} required />
+        </label>
+        <label>
+          Service End Date
+          <input type="date" name="checkOut" value={form.checkOut} onChange={handleChange} required />
+        </label>
         <textarea
           name="requests"
           placeholder="Special requests"
